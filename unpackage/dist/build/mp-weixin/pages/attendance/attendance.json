@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "考勤",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "teacher-part": "/components/teacherPart/teacherPart",
+    "student-part": "/components/studentPart/studentPart"
+  }
+}

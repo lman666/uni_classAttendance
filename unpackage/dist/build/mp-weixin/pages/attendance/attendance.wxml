@@ -1,0 +1,1 @@
+<view class="body"><block wx:if="{{token&&userData&&showPart==='teacher'}}"><teacher-part vue-id="f5161bc0-1" bind:__l="__l"></teacher-part></block><block wx:if="{{token&&userData&&showPart==='student'}}"><student-part vue-id="f5161bc0-2" token="{{token}}" userData="{{userData}}" bind:__l="__l"></student-part></block></view>

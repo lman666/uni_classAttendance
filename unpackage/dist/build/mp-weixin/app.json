@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/attendance/attendance",
+    "pages/chat/chat",
+    "pages/index/index",
+    "pages/lookUpStaff/lookUpStaff",
+    "pages/my/my",
+    "pages/selRecurDate/selRecurDate",
+    "pages/lookUpPunchRes/lookUpPunchRes",
+    "pages/TUI-Conversation/conversation/conversation",
+    "pages/TUI-Chat/chat",
+    "pages/TUI-Conversation/create-conversation/create"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "selectedColor": "#ffd2d3",
+    "color": "#707070",
+    "list": [
+      {
+        "pagePath": "pages/attendance/attendance",
+        "text": "考勤",
+        "iconPath": "static/tab_icons/attendance.png",
+        "selectedIconPath": "static/tab_icons/attendance-active.png"
+      },
+      {
+        "pagePath": "pages/chat/chat",
+        "text": "聊天",
+        "iconPath": "static/tab_icons/chat.png",
+        "selectedIconPath": "static/tab_icons/chat-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tab_icons/my.png",
+        "selectedIconPath": "static/tab_icons/my-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取您的位置"
+    }
+  },
+  "requiredPrivateInfos": [
+    "chooseLocation",
+    "getLocation"
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {}
+}

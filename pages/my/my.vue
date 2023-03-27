@@ -119,7 +119,7 @@
           },
           {
             icon: require('@/static/tab_icons/about.png'),
-            title: '更换头像昵称',
+            title: '头像昵称',
             operate: 'changeAvatarAndNick'
           },
           {
@@ -184,9 +184,12 @@
           uni.$showMsg(updatePhotoRes.message, 'success')
         }
       },
-      // 关于我们
+      // 更换头像昵称
       changeAvatarAndNick() {
         console.log('changeAvatarAndNick')
+        uni.navigateTo({
+          url: '/page_change/change/change'
+        })
       },
       // 退出登录询问
       dialogToggle() {

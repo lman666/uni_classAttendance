@@ -14,10 +14,10 @@
             <uni-data-checkbox v-model="formData.role" :localdata="roles" :disabled="isDisabled" />
           </uni-forms-item>
           <uni-forms-item label="工号" required name="code" v-if="formData.role === 0">
-            <uni-easyinput v-model="formData.code" placeholder="请输入工号" :disabled="isDisabled"/>
+            <uni-easyinput v-model="formData.code" placeholder="请输入工号" :disabled="isDisabled" />
           </uni-forms-item>
           <uni-forms-item label="学号" required name="code" v-if="formData.role === 1">
-            <uni-easyinput v-model="formData.code" placeholder="请输入学号" :disabled="isDisabled"/>
+            <uni-easyinput v-model="formData.code" placeholder="请输入学号" :disabled="isDisabled" />
           </uni-forms-item>
           <uni-forms-item label="选择个人照片" required name="photo" label-width="120px" v-if="formData.role === 1">
             <uni-file-picker limit="1" v-model="formData.photo"></uni-file-picker>
@@ -39,7 +39,7 @@
   import {
     pathToBase64
   } from 'image-tools'
-  
+
   export default {
     data() {
       return {
@@ -54,7 +54,7 @@
         },
         // 用户头像昵称openid
         userInfo: {
-          avatar: '',
+          avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132', // 默认头像
           nickName: '',
           openid: ''
         },
@@ -130,29 +130,29 @@
             }
           });
 
-          // 获取头像昵称
-          uni.getUserProfile({
-            desc: '用于完善资料',
-            success: (res) => {
-              this.userInfo.avatar = res.userInfo.avatarUrl
-              this.userInfo.nickName = res.userInfo.nickName
-              this.updateUserInfo(this.userInfo)
-              this.saveData(this.userInfo)
-            },
-            fail: (res) => {
-              console.log(res)
-            }
-          })
+          // // 获取头像昵称
+          // uni.getUserProfile({
+          //   desc: '用于完善资料',
+          //   success: (res) => {
+          //     this.userInfo.avatar = res.userInfo.avatarUrl
+          //     this.userInfo.nickName = res.userInfo.nickName
+          //     this.updateUserInfo(this.userInfo)
+          //     this.saveData(this.userInfo)
+          //   },
+          //   fail: (res) => {
+          //     console.log(res)
+          //   }
+          // })
         }).catch(err => {
           console.log('err', err)
         })
       },
-      
+
       // 本地图片转base64
       imageToBase64(path) {
         pathToBase64(path)
-        .then(base64 => {
-          this.formData.stuBase64Photo = base64
+          .then(base64 => {
+            this.formData.stuBase64Photo = base64
           })
           .catch(error => {
             console.error(error)
@@ -164,6 +164,9 @@
         const getOpenId = uniCloud.importObject('getOpenId')
         let res = await getOpenId.exam(code)
         this.userInfo.openid = res.data.openid
+        this.userInfo.nickName = this.userData.name
+        this.updateUserInfo(this.userInfo)
+        this.saveData(this.userInfo)
       },
       // 保存到数据库
       async saveData(obj) {
@@ -176,7 +179,7 @@
           stuBase64Photo: this.formData.stuBase64Photo
         };
         const register = uniCloud.importObject('register')
-        let regisRes = await register.reg(data)  // 存储数据
+        let regisRes = await register.reg(data) // 存储数据
         if (regisRes.code === 200) {
           const tokenHelper = uniCloud.importObject('tokenHelper')
           let token = await tokenHelper.getToken(this.userInfo.openid) // 获取token
@@ -223,7 +226,7 @@
       height: 500rpx;
       background-color: #fff;
       padding: 40rpx 40rpx 0 40rpx;
-      
+
       /deep/ .uni-forms-item {
         align-items: center;
       }

@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-u-i-text-message": "/page_chat/components/tui-chat/message-elements/text-message/index",
+    "t-u-i-image-message": "/page_chat/components/tui-chat/message-elements/image-message/index",
+    "t-u-i-video-message": "/page_chat/components/tui-chat/message-elements/video-message/index",
+    "t-u-i-audio-message": "/page_chat/components/tui-chat/message-elements/audio-message/index",
+    "t-u-i-custom-message": "/page_chat/components/tui-chat/message-elements/custom-message/index",
+    "t-u-i-tip-message": "/page_chat/components/tui-chat/message-elements/tip-message/index",
+    "t-u-i-system-message": "/page_chat/components/tui-chat/message-elements/system-message/index",
+    "t-u-i-face-message": "/page_chat/components/tui-chat/message-elements/face-message/index",
+    "t-u-i-file-message": "/page_chat/components/tui-chat/message-elements/file-message/index"
+  }
+}

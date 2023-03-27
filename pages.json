@@ -61,6 +61,15 @@
           "navigationBarTitleText": "选择重复日期"
         }
       }]
+    },
+    {
+      "root": "page_change",
+      "pages": [{
+        "path": "change/change",
+        "style": {
+          "navigationBarTitleText": "更改头像昵称"
+        }
+      }]
     }
   ],
   "globalStyle": {

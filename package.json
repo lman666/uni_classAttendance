@@ -3,8 +3,6 @@
     "aegis-mp-sdk": "^1.36.7",
     "cos-wx-sdk-v5": "^1.4.10",
     "image-tools": "^1.4.0",
-    "jwt-simple": "^0.5.6",
-    "node-xlsx": "^0.21.0",
     "tim-wx-sdk": "^2.26.6"
   }
 }

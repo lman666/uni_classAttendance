@@ -1,32 +1,38 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 var xlsx = require('node-xlsx')   //引用node-xlsx依赖
-let jwt = require('jwt-simple')
-const jstSecret = 'jstSecret' // 秘钥
 
-// 验证token
-async function verifyToken(token) {
-  if (token) {
-    let decoded = jwt.decode(token, jstSecret) // 解析token
-    const db = uniCloud.database()
-    let res = await db.collection('user').where({ // 验证该用户是否存在
-      openid: decoded.openid
-    }).count()
-    return res.total === 1
-  } else {
-    return
-  }
-}
+const {
+  verifyToken,
+  decodeToken
+} = require('vali-token')
 
-// 解析token
-function decodeToken(token) {
-  if (token) {
-    let decoded = jwt.decode(token, jstSecret); // 解析token
-    return decoded.openid
-  } else {
-    return
-  }
-}
+// let jwt = require('jwt-simple')
+// const jstSecret = 'jstSecret' // 秘钥
+
+// // 验证token
+// async function verifyToken(token) {
+//   if (token) {
+//     let decoded = jwt.decode(token, jstSecret) // 解析token
+//     const db = uniCloud.database()
+//     let res = await db.collection('user').where({ // 验证该用户是否存在
+//       openid: decoded.openid
+//     }).count()
+//     return res.total === 1
+//   } else {
+//     return
+//   }
+// }
+
+// // 解析token
+// function decodeToken(token) {
+//   if (token) {
+//     let decoded = jwt.decode(token, jstSecret); // 解析token
+//     return decoded.openid
+//   } else {
+//     return
+//   }
+// }
 
 // 解析excel表格失败
 var fail1 = {

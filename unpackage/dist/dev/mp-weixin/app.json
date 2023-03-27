@@ -2,14 +2,30 @@
   "pages": [
     "pages/attendance/attendance",
     "pages/chat/chat",
-    "pages/index/index",
-    "pages/lookUpStaff/lookUpStaff",
-    "pages/my/my",
-    "pages/selRecurDate/selRecurDate",
-    "pages/lookUpPunchRes/lookUpPunchRes",
-    "pages/TUI-Chat/chat"
+    "pages/my/my"
   ],
-  "subPackages": [],
+  "subPackages": [
+    {
+      "root": "page_index",
+      "pages": [
+        "index/index"
+      ]
+    },
+    {
+      "root": "page_chat",
+      "pages": [
+        "TUI-Chat/chat"
+      ]
+    },
+    {
+      "root": "page_teaPart",
+      "pages": [
+        "lookUpPunchRes/lookUpPunchRes",
+        "lookUpStaff/lookUpStaff",
+        "selRecurDate/selRecurDate"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",

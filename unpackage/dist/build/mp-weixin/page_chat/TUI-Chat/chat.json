@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-u-i-message-list": "/page_chat/components/tui-chat/message-list/index",
+    "t-u-i-message-input": "/page_chat/components/tui-chat/message-input/index",
+    "t-u-i-group-profile": "/page_chat/components/tui-group/group-profile/index"
+  }
+}

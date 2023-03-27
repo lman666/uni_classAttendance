@@ -1,1 +1,0 @@
-<view class="staffList"><uni-list vue-id="19b0ab9c-1" bind:__l="__l" vue-slots="{{['default']}}"><block wx:for="{{staff}}" wx:for-item="item" wx:for-index="i" wx:key="i"><block><uni-list-item vue-id="{{('19b0ab9c-2-'+i)+','+('19b0ab9c-1')}}" title="{{item.name}}" note="{{item.code}}" rightText="{{item.school}}" bind:__l="__l"></uni-list-item></block></block></uni-list></view>

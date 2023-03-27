@@ -21,7 +21,7 @@
 <script>
   import logger from '@/utils/logger.js';
   import TUIConversationItem from '@/components/tui-conversation/conversation-item/index.vue';
-  import TUIMessageList from '@/components/tui-chat/message-list/index.vue';
+  // import TUIMessageList from '@/components/tui-chat/message-list/index.vue';
 
   export default {
     data() {
@@ -37,8 +37,8 @@
     },
 
     components: {
-      TUIConversationItem,
-      TUIMessageList
+      TUIConversationItem
+      // TUIMessageList
     },
     props: {},
 
@@ -67,7 +67,7 @@
         // })
       },
       handleRoute(id) {
-        const url = `/pages/TUI-Chat/chat?conversationID=${id}`;
+        const url = `/page_chat/TUI-Chat/chat?conversationID=${id}`;
         uni.navigateTo({
           url
         });

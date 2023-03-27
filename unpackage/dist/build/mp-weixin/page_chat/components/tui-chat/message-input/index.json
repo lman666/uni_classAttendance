@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-u-i-emoji": "/page_chat/components/tui-chat/message-elements/emoji/index",
+    "t-u-i-common-words": "/page_chat/components/tui-chat/message-private/common-words/index",
+    "t-u-i-order-list": "/page_chat/components/tui-chat/message-private/order-list/index",
+    "t-u-i-service-evaluation": "/page_chat/components/tui-chat/message-private/service-evaluation/index"
+  }
+}

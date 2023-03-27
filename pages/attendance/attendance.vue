@@ -39,7 +39,7 @@
     onLoad() {
       if (JSON.stringify(this.userInfo) === '{}' || this.token === '' || !this.verify()) {
         uni.reLaunch({
-          url: '/pages/index/index'
+          url: '/page_index/index/index'
         })
       }
     },

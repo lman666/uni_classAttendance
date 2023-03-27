@@ -4,83 +4,64 @@
       "path": "pages/attendance/attendance",
       "style": {
         "navigationBarTitleText": "考勤",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": true
       }
 
     }, {
       "path": "pages/chat/chat",
       "style": {
         "navigationBarTitleText": "聊天",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": true
       }
 
-    }, {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-
-    }, {
-      "path": "pages/lookUpStaff/lookUpStaff",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-
-    }, {
+    },
+    {
       "path": "pages/my/my",
       "style": {
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
       }
 
-    }, {
-      "path": "pages/selRecurDate/selRecurDate",
-      "style": {
-        "navigationBarTitleText": "选择重复日期",
-        "enablePullDownRefresh": false
-      }
-
-    }, {
-      "path": "pages/lookUpPunchRes/lookUpPunchRes",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-
-    },
-    // {
-    //   "path": "pages/TUI-Login/login",
-    //   "style": {}
-    // },
-    // {
-    //   "path": "pages/TUI-Index/index",
-    //   "style": {
-    //     "navigationStyle": "custom"
-    //   }
-    // },
-    // {
-    //   "path": "pages/TUI-Conversation/conversation/conversation",
-    //   "style": {
-    //     "navigationBarTitleText": "会话列表",
-    //     "navigationBarBackgroundColor": "#006EFF",
-    //     "backgroundColor": "#FFFFFF",
-    //     "navigationBarTextStyle": "white"
-    //   }
-    // },
-    {
-      "path": "pages/TUI-Chat/chat",
-      "style": {
-        "navigationStyle": "custom"
-      }
     }
-    // {
-    //   "path": "pages/TUI-Conversation/create-conversation/create",
-    //   "style": {
-    //     "navigationStyle": "custom"
-    //   }
-    // }
+  ],
+  "subPackages": [{
+      "root": "page_index",
+      "pages": [{
+        "path": "index/index",
+        "style": {
+          "navigationBarTitleText": "考勤小程序"
+        }
+      }]
+    }, {
+      "root": "page_chat",
+      "pages": [{
+        "path": "TUI-Chat/chat",
+        "style": {
+          "navigationStyle": "custom"
+        }
+      }]
+    },
+    {
+      "root": "page_teaPart",
+      "pages": [{
+        "path": "lookUpPunchRes/lookUpPunchRes",
+        "style": {
+          "navigationBarTitleText": "查看结果",
+          "enablePullDownRefresh": true
+        }
+      }, {
+        "path": "lookUpStaff/lookUpStaff",
+        "style": {
+          "navigationBarTitleText": "查看人员",
+          "enablePullDownRefresh": true
+        }
+      }, {
+        "path": "selRecurDate/selRecurDate",
+        "style": {
+          "navigationBarTitleText": "选择重复日期"
+        }
+      }]
+    }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

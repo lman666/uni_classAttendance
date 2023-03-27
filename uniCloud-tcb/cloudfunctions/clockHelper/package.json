@@ -1,6 +1,8 @@
 {
   "name": "clockHelper",
-  "dependencies": {},
+  "dependencies": {
+    "vali-token": "file:../common/vali-token"
+  },
   "extensions": {
     "uni-cloud-jql": {}
   }

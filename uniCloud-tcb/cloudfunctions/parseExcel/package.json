@@ -1,6 +1,9 @@
 {
   "name": "parseExcel",
-  "dependencies": {},
+  "dependencies": {
+    "node-xlsx": "^0.21.0",
+    "vali-token": "file:../common/vali-token"
+  },
   "extensions": {
     "uni-cloud-jql": {}
   }

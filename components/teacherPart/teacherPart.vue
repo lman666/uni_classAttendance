@@ -311,7 +311,7 @@
       lookUpPunchRes() {
         if (JSON.stringify(this.punchResInfo) !== '{}') {
           uni.navigateTo({
-            url: '/pages/lookUpPunchRes/lookUpPunchRes?punchResInfo=' + encodeURIComponent(JSON.stringify(this.punchResInfo))
+            url: '/page_teaPart/lookUpPunchRes/lookUpPunchRes?punchResInfo=' + encodeURIComponent(JSON.stringify(this.punchResInfo))
           })
         }
       },
@@ -625,7 +625,7 @@
           } else {
             if (this.selectedCourse.staffList) {
               uni.navigateTo({
-                url: '/pages/lookUpStaff/lookUpStaff?staff=' + encodeURIComponent(JSON.stringify(this.selectedCourse
+                url: '/page_teaPart/lookUpStaff/lookUpStaff?staff=' + encodeURIComponent(JSON.stringify(this.selectedCourse
                   .staffList))
               })
             }
@@ -769,7 +769,7 @@
       // 选择打卡日期
       selectDate() {
         uni.navigateTo({
-          url: '/pages/selRecurDate/selRecurDate'
+          url: '/page_teaPart/selRecurDate/selRecurDate'
         })
       },
       // 二级页面返回时调用

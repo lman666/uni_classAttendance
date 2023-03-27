@@ -1,9 +1,8 @@
 {
   "navigationBarTitleText": "聊天",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "uni-swipe-action-item": "/uni_modules/uni-swipe-action/components/uni-swipe-action-item/uni-swipe-action-item",
-    "t-u-i-conversation-item": "/components/tui-conversation/conversation-item/index",
-    "t-u-i-message-list": "/components/tui-chat/message-list/index"
+    "t-u-i-conversation-item": "/components/tui-conversation/conversation-item/index"
   }
 }

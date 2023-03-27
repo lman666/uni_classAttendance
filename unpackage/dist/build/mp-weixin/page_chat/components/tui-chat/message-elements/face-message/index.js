@@ -1,0 +1,10 @@
+require('../../../../common/vendor.js');(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["page_chat/components/tui-chat/message-elements/face-message/index"],{"2f95":function(e,t,n){"use strict";n.d(t,"b",(function(){return a})),n.d(t,"c",(function(){return r})),n.d(t,"a",(function(){}));var a=function(){var e=this.$createElement;this._self._c},r=[]},"56aa":function(e,t,n){"use strict";n.r(t);var a=n("84bd"),r=n.n(a);for(var c in a)["default"].indexOf(c)<0&&function(e){n.d(t,e,(function(){return a[e]}))}(c);t["default"]=r.a},"7ce3":function(e,t,n){},"84bd":function(e,t,n){"use strict";(function(e){Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var n={data:function(){return{renderDom:[],percent:0,faceUrl:"https://web.sdk.qcloud.com/im/assets/face-elem/"}},components:{},props:{message:{type:Object},isMine:{type:Boolean,default:!0}},watch:{message:{handler:function(e){this.setData({renderDom:this.parseFace(e)})},immediate:!0,deep:!0}},methods:{parseFace:function(e){var t={src:"".concat(this.faceUrl+e.payload.data,"@2x.png")};return t},previewImage:function(){e.previewImage({current:this.renderDom[0].src,urls:[this.renderDom[0].src]})}}};t.default=n}).call(this,n("543d")["default"])},"8da9":function(e,t,n){"use strict";n.r(t);var a=n("2f95"),r=n("56aa");for(var c in r)["default"].indexOf(c)<0&&function(e){n.d(t,e,(function(){return r[e]}))}(c);n("b6ba");var s=n("f0c5"),u=Object(s["a"])(r["default"],a["b"],a["c"],!1,null,null,null,!1,a["a"],void 0);t["default"]=u.exports},b6ba:function(e,t,n){"use strict";var a=n("7ce3"),r=n.n(a);r.a}}]);
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    'page_chat/components/tui-chat/message-elements/face-message/index-create-component',
+    {
+        'page_chat/components/tui-chat/message-elements/face-message/index-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('543d')['createComponent'](__webpack_require__("8da9"))
+        })
+    },
+    [['page_chat/components/tui-chat/message-elements/face-message/index-create-component']]
+]);

@@ -119,8 +119,8 @@
           },
           {
             icon: require('@/static/tab_icons/about.png'),
-            title: '关于我们',
-            operate: 'aboutUs'
+            title: '更换头像昵称',
+            operate: 'changeAvatarAndNick'
           },
           {
             icon: require('@/static/tab_icons/logOut.png'),
@@ -185,8 +185,8 @@
         }
       },
       // 关于我们
-      aboutUs() {
-        console.log('aboutUs')
+      changeAvatarAndNick() {
+        console.log('changeAvatarAndNick')
       },
       // 退出登录询问
       dialogToggle() {

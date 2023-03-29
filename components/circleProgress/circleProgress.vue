@@ -1,9 +1,13 @@
 <template>
   <view class="progress_box">
-    <canvas class="progress_bg" canvas-id="cpbg"
-      :style="{width:progress_width+'px',height:progress_height+'px'}"></canvas>
-    <canvas class="progress_bar" canvas-id="cpbar"
-      :style="{width:progress_width+'px',height:progress_height+'px'}"></canvas>
+    <canvas class="progress_bg" canvas-id="cpbg" :style="{width:progress_width+'px',height:progress_height+'px'}"
+      v-show="isShowCanvas"></canvas>
+    <image v-if="!isShowCanvas && cpbgImg" :src="cpbgImg"
+      :style="{width:progress_width+'px',height:progress_height+'px'}"></image>
+    <canvas class="progress_bar" canvas-id="cpbar" :style="{width:progress_width+'px',height:progress_height+'px'}"
+      v-show="isShowCanvas"></canvas>
+    <image v-if="!isShowCanvas && cpbarImg" :src="cpbarImg"
+      :style="{width:progress_width+'px',height:progress_height+'px'}" class="cpbarImgStyle"></image>
     <view class="progress">
       <view class="data">{{alreadyPunchCount + ' / ' + totalStaffCount}}</view>
       <view class="explain">打卡人数 / 应到人数</view>
@@ -14,6 +18,11 @@
   export default {
     name: "circleProgress",
     props: {
+      isShowCanvas: {
+        type: Boolean,
+        default: true,
+        required: true
+      },
       alreadyPunchCount: {
         type: Number,
         default: 0,
@@ -61,12 +70,17 @@
       totalStaffCount() {
         this.calculate()
         this.drawCircle(this.value)
+      },
+      isShowCanvas() {
+        console.log(this.isShowCanvas)
       }
     },
     data() {
       return {
         percent: 0, // 保存进度值的变化前后值，用于比较用
-        value: 0
+        value: 0, // 计算结果
+        cpbgImg: '', // canvas背景图片
+        cpbarImg: '' // canvas画圆部分图片
       }
     },
     created() {
@@ -85,8 +99,26 @@
           this.value = 0
         }
       },
+      // 将画布生成图片
+      canvasToTempFilePath(x, y, width, height, canvasId, destWidth, destHeight, obj, target) {
+        setTimeout(() => {
+          uni.canvasToTempFilePath({
+            x,
+            y,
+            width,
+            height,
+            canvasId,
+            destWidth,
+            destHeight,
+            success: (res) => {
+              this[target] = res.tempFilePath
+            }
+          }, obj)
+        }, 500)
+      },
       // 背景
       drawProgressbg: function() {
+        let that = this
         // 自定义组件实例 this ，表示在这个自定义组件下查找拥有 canvas-id 的 <canvas/>
         let ctx = uni.createCanvasContext('cpbg', this)
         ctx.setLineWidth(this.border_width)
@@ -95,10 +127,11 @@
         ctx.beginPath()
         ctx.arc(100, 100, 80, 0.99 * Math.PI, 0.01 * Math.PI, false)
         ctx.stroke()
-        ctx.draw()
+        ctx.draw(false, that.canvasToTempFilePath(0, 0, 200, 160, 'cpbg', 200, 160, that, 'cpbgImg'))
       },
       // 画圆（递归调用）
       drawCircle: function(step) {
+        let that = this
         // if (step === 0) return;
         let time = Math.floor(this.progress_time / 100)
         let ctx = uni.createCanvasContext('cpbar', this)
@@ -125,7 +158,7 @@
           ctx.restore()
         }
         ctx.stroke()
-        ctx.draw()
+        ctx.draw(false, that.canvasToTempFilePath(0, 0, 200, 160, 'cpbar', 200, 160, that, 'cpbarImg'))
         if (this.value > this.percent) {
           this.percent++
           setTimeout(() => {
@@ -165,5 +198,9 @@
     left: 50%;
     transform: translate(-50%, -30%);
     font-size: 28rpx;
+  }
+  
+  .cpbarImgStyle {
+    position: absolute;
   }
 </style>

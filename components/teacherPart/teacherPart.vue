@@ -42,12 +42,12 @@
             @change="confirmDate" />
         </view>
         <view class="circleProgress" @click="lookUpPunchRes">
-          <circleProgress :alreadyPunchCount="alreadyPunchCount" :totalStaffCount="totalStaffCount"></circleProgress>
+          <circleProgress :alreadyPunchCount="alreadyPunchCount" :totalStaffCount="totalStaffCount" :isShowCanvas="isShowCanvas"></circleProgress>
         </view>
       </view>
       <view class="editTime">
         <!-- 编辑打卡时间的弹窗 -->
-        <uni-popup ref="popupTime" background-color="#fff" @change="change">
+        <uni-popup ref="popupTime" background-color="#fff" @change="change" @maskClick="maskClick">
           <view class="popupTimeStyle">
             <view class="top">
               <image src="../../static/tab_icons/close.png" @click="timeClose"></image>
@@ -100,7 +100,7 @@
         </uni-popup>
       </view>
       <view class="selectMethod">
-        <uni-popup ref="popupMethod" background-color="#fff" @change="change">
+        <uni-popup ref="popupMethod" background-color="#fff" @change="change" @maskClick="maskClick">
           <view class="clockType">
             <button plain="true" @click="selectMethodOfClock('普通打卡')">普通打卡</button>
             <button plain="true" @click="selectMethodOfClock('定位打卡')">定位打卡</button>
@@ -109,7 +109,7 @@
         </uni-popup>
       </view>
       <view class="readAttendanceTime">
-        <uni-popup ref="popupAttendanceTime" background-color="#fff" @change="change">
+        <uni-popup ref="popupAttendanceTime" background-color="#fff" @change="change" @maskClick="maskClick">
           <view class="body">
             <uni-list>
               <block v-for="(item, i) in selectedCourse.clockList" :key="i">
@@ -120,7 +120,7 @@
         </uni-popup>
       </view>
       <view class="readAttendanceMethod">
-        <uni-popup ref="popupAttendanceMethod" background-color="#fff" @change="change">
+        <uni-popup ref="popupAttendanceMethod" background-color="#fff" @change="change" @maskClick="maskClick">
           <view class="body">
             <uni-list>
               <uni-list-item title="打卡时间" :rightText="selectedCourse.method" />
@@ -146,7 +146,7 @@
     <view>
       <!-- 输入框 -->
       <uni-popup ref="inputDialog" type="dialog">
-        <uni-popup-dialog ref="inputClose" mode="input" title="添加新课程" placeholder="请输入内容" @confirm="dialogInputConfirm">
+        <uni-popup-dialog mode="input" title="添加新课程" placeholder="请输入内容" :before-close="true" @confirm="dialogInputConfirm" @close="dialogInputCourseClose">
         </uni-popup-dialog>
       </uni-popup>
     </view>
@@ -253,6 +253,7 @@
         punchResInfo: {},   // 打卡结果
         alreadyPunchCount: 0,   // 某天已打卡人数
         totalStaffCount: 0,    // 需打卡总人数
+        isShowCanvas: true,  // 是否显示画布
         options: [{
           text: '删除',
           style: {
@@ -407,10 +408,12 @@
       // 打开窗口
       showDrawer(e) {
         if (this.isEdit) return
+        this.isShowCanvas = false
         this.$refs[e].open()
       },
       // 关闭窗口
       closeDrawer(e) {
+        this.isShowCanvas = true
         this.$refs[e].close()
       },
       // 抽屉状态发生变化触发
@@ -420,27 +423,37 @@
       // 添加课程
       addCourse() {
         if (this.isEdit) return
+        this.isShowCanvas = false
         this.$refs.inputDialog.open()
       },
       // 添加课程对话框确认
       async dialogInputConfirm(val) {
         uni.hideLoading()
-        // 关闭窗口后，恢复默认内容
-        this.$refs.inputDialog.close()
-        let obj = {
-          token: this.token,
-          courseName: val
-        }
-        const courseHelper = uniCloud.importObject('courseHelper')
-        let res = await courseHelper.addNewCourse(obj)
-        if (res.code === 200) {
-          uni.$showMsg(res.message, 'success')
-        } else if (res.code === 401) {
-          uni.$showMsg(res.message, 'error')
+        if (val !== '') {
+          this.$refs.inputDialog.close()
+          this.isShowCanvas = true
+          let obj = {
+            token: this.token,
+            courseName: val
+          }
+          const courseHelper = uniCloud.importObject('courseHelper')
+          let res = await courseHelper.addNewCourse(obj)
+          if (res.code === 200) {
+            uni.$showMsg(res.message, 'success')
+          } else if (res.code === 401) {
+            uni.$showMsg(res.message, 'error')
+          } else {
+            uni.$showMsg(res.message, 'error')
+          }
+          this.getCourseList(this.token)
         } else {
-          uni.$showMsg(res.message, 'error')
+          uni.$showMsg('请输入课程名', 'none')
         }
-        this.getCourseList(this.token)
+      },
+      // 添加课程对话框取消
+      dialogInputCourseClose() {
+        this.$refs.inputDialog.close()
+        this.isShowCanvas = true
       },
       // 加载课程列表
       async getCourseList(token) {
@@ -505,6 +518,7 @@
           this.upLoadMethod()
         }
         this.$refs.popupMethod.close()
+        this.isShowCanvas = true
       },
       // 腾讯地图定位功能
       getMapLocation() {
@@ -590,8 +604,10 @@
         if (this.isEdit) {
           this.mode = mode
           if (mode === 'time') {
+            this.isShowCanvas = false
             this.$refs.popupTime.open(type)
           } else if (mode === 'method') {
+            this.isShowCanvas = false
             this.$refs.popupMethod.open(type)
           } else if (mode === 'staff') {
             wx.chooseMessageFile({
@@ -616,10 +632,12 @@
         } else {
           if (mode === 'time') {
             if (this.selectedCourse.clockList) {
+              this.isShowCanvas = false
               this.$refs.popupAttendanceTime.open('center')
             }
           } else if (mode === 'method') {
             if (this.selectedCourse.method) {
+              this.isShowCanvas = false
               this.$refs.popupAttendanceMethod.open('center')
             }
           } else {
@@ -656,6 +674,10 @@
           uni.$showMsg('解析文件失败', 'none')
         }
       },
+      // 所有弹窗点击遮罩层关闭
+      maskClick() {
+        this.isShowCanvas = true
+      },
       // 关闭设置时间的底部弹窗
       async timeClose() {
         if (this.chackClockList()) {
@@ -669,6 +691,7 @@
               uni.$showMsg(res.message, "error")
             }
             this.$refs.popupTime.close()
+            this.isShowCanvas = true
           } else {
             uni.$showMsg("请设置打卡时间", "none")
           }

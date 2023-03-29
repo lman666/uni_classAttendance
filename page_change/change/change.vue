@@ -7,13 +7,17 @@
     </view>
     <view class="change_nick">
       <text class="title">昵称</text>
-      <input type="nickname" class="weui-input" placeholder="请输入昵称" />
+      <input type="nickname" class="weui-input" placeholder="请输入昵称" :value="oldNick" @input="inputEve" />
+    </view>
+    <view class="button">
+      <button type="default" @click="submit">提交</button>
     </view>
   </view>
 </template>
 
 <script>
   import {
+    mapMutations,
     mapState
   } from 'vuex'
 
@@ -21,7 +25,8 @@
     data() {
       return {
         avatar: '',
-        nickName: ''
+        oldNick: '',
+        newNick: ''
       };
     },
     computed: {
@@ -29,11 +34,65 @@
     },
     onLoad() {
       this.avatar = this.userInfo.avatar
-      this.nickName = this.userInfo.nickName
+      this.oldNick = this.userInfo.nickName
+      this.newNick = this.userInfo.nickName
     },
     methods: {
+      ...mapMutations('m_user', ['updateUserInfo']),
+      // 选择头像触发
       onChooseAvatar(e) {
-        console.log(e)
+        this.avatar = e.detail.avatarUrl
+      },
+      // 表单提交
+      async submit() {
+        if (this.newNick === '') {
+          uni.$showMsg('请输入昵称', 'none')
+        } else {
+          const register = uniCloud.importObject('register')
+          let updateRes = await register.changeAvatarAndNick(this.token, this.newNick, this.avatar)
+          if (updateRes.code === 401) {
+            uni.$showMsg(updateRes.message, 'error')
+          } else {
+            this.updateMyProfile()
+          }
+        }
+      },
+      // 输入事件
+      inputEve(e) {
+        this.newNick = e.detail.value
+      },
+      // 修改聊天个人信息
+      updateMyProfile() {
+        uni.$TUIKit
+          .updateMyProfile({
+            avatar: this.avatar,
+            nick: this.newNick
+          })
+          .then(imResponse => {
+            // 更新资料成功
+            // console.log('update', imResponse.data);
+            this.changeLocalInfo()
+          })
+          .catch((imError) => {
+            // 更新资料失败
+            // console.warn('updateMyProfile error:', imError);
+            uni.$showMsg('更新失败', 'error')
+          });
+      },
+      // 修改本地存储
+      changeLocalInfo() {
+        this.userInfo.avatar = this.avatar
+        this.userInfo.nickName = this.newNick
+        this.updateUserInfo(this.userInfo)
+        uni.$showMsg('更新成功', 'success')
+        this.navigateBack()
+      },
+      // 跳转页面
+      navigateBack() {
+        let timer = setTimeout(() => {
+          uni.navigateBack()
+          clearTimeout(timer)
+        }, 1500)
       }
     }
   }
@@ -43,38 +102,54 @@
   page {
     background-color: #fff;
   }
-  
+
   .change_avatar {
     padding: 100rpx 0;
-    
+
     .avatar-wrapper {
       width: 100rpx;
       height: 100rpx;
       padding: 0;
-      
+
       &::after {
         border: unset;
       }
-      
+
       .avatar {
         width: 100rpx;
         height: 100rpx;
       }
     }
   }
-  
+
   .change_nick {
     display: flex;
     padding: 20rpx 30rpx;
     border-top: 1rpx solid #eee;
     border-bottom: 1rpx solid #eee;
-    
+
     .title {
       margin-right: 120rpx;
     }
-    
+
     .weui-input {
       flex: 1;
+    }
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    margin-top: 100rpx;
+
+    button {
+      width: 350rpx;
+      background-color: #ffd2d3;
+      color: #fff;
+
+      &::after {
+        border: unset;
+      }
     }
   }
 </style>

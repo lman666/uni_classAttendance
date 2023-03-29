@@ -46,7 +46,7 @@ let success1 = {
 }
 let success2 = {
   code: 201,
-  message: "照片已是最新"
+  message: "数据已是最新"
 }
 
 const db = uniCloud.database()
@@ -112,6 +112,26 @@ module.exports = {
         stuBase64Photo: stuBase64Photo
       })
       if (updatePhotoRes.updated === 0) {
+        return success2
+      } else {
+        return success1
+      }
+    } else {
+      return fail2
+    }
+  },
+  
+  // 更改头像昵称
+  async changeAvatarAndNick(token, nick, avatar) {
+    if (token && verifyToken(token)) {
+      let openid = decodeToken(token)
+      let updateRes = await db.collection('user').where({
+        openid: openid
+      }).update({
+        nickName: nick,
+        avatar: avatar
+      })
+      if (updateRes.updated === 0) {
         return success2
       } else {
         return success1

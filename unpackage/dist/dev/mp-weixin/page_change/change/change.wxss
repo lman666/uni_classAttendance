@@ -28,4 +28,17 @@ page {
 .change_nick .weui-input {
   flex: 1;
 }
+.button {
+  display: flex;
+  justify-content: center;
+  margin-top: 100rpx;
+}
+.button button {
+  width: 350rpx;
+  background-color: #ffd2d3;
+  color: #fff;
+}
+.button button::after {
+  border: unset;
+}
 

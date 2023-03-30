@@ -39,7 +39,7 @@
       <view class="readPunch" v-if="showPunResCom">
         <view class="pickBody">
           <uni-datetime-picker type="date" :clear-icon="false" v-model="selDate" :end="currentDate"
-            @change="confirmDate" />
+            @change="confirmDate"/>
         </view>
         <view class="circleProgress" @click="lookUpPunchRes">
           <circleProgress :alreadyPunchCount="alreadyPunchCount" :totalStaffCount="totalStaffCount" :isShowCanvas="isShowCanvas"></circleProgress>
@@ -173,6 +173,7 @@
 </template>
 
 <script>
+  import bus from '@/utils/bus.js'
   import {
     mapState
   } from 'vuex'
@@ -274,6 +275,9 @@
       uni.$on('isSDKReady', value => {
         this.updateMyProfile()
       });
+      bus.$on('calendarCloseFn', (data) => {
+        this.isShowCanvas = data
+      })
       this.getCurrentDate()
       this.getCourseList(this.token)
     },

@@ -90,6 +90,7 @@
 </template>
 
 <script>
+  import bus from '@/utils/bus.js'
 	import { Calendar, getDate, getTime } from './util.js';
 	import calendarItem from './calendar-item.vue'
 	import timePicker from './time-picker.vue'
@@ -427,6 +428,7 @@
 			// 取消穿透
 			clean() {
 				this.close()
+        bus.$emit('calendarCloseFn', true)
 			},
 
 			// 蒙版点击事件
@@ -496,6 +498,7 @@
 			 * 打开日历弹窗
 			 */
 			open() {
+        bus.$emit('calendarCloseFn', false)
 				// 弹窗模式并且清理数据
 				if (this.clearDate && !this.insert) {
 					this.cale.cleanMultipleStatus()
@@ -527,6 +530,7 @@
 			confirm() {
 				this.setEmit('confirm')
 				this.close()
+        bus.$emit('calendarCloseFn', true)
 			},
 			/**
 			 * 变化触发

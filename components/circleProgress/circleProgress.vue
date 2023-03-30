@@ -1,12 +1,12 @@
 <template>
   <view class="progress_box">
     <canvas class="progress_bg" canvas-id="cpbg" :style="{width:progress_width+'px',height:progress_height+'px'}"
-      v-show="isShowCanvas"></canvas>
-    <image v-if="!isShowCanvas && cpbgImg" :src="cpbgImg"
+      v-show="isShow"></canvas>
+    <image v-if="!isShow && cpbgImg" :src="cpbgImg"
       :style="{width:progress_width+'px',height:progress_height+'px'}"></image>
     <canvas class="progress_bar" canvas-id="cpbar" :style="{width:progress_width+'px',height:progress_height+'px'}"
-      v-show="isShowCanvas"></canvas>
-    <image v-if="!isShowCanvas && cpbarImg" :src="cpbarImg"
+      v-show="isShow"></canvas>
+    <image v-if="!isShow && cpbarImg" :src="cpbarImg"
       :style="{width:progress_width+'px',height:progress_height+'px'}" class="cpbarImgStyle"></image>
     <view class="progress">
       <view class="data">{{alreadyPunchCount + ' / ' + totalStaffCount}}</view>
@@ -72,7 +72,14 @@
         this.drawCircle(this.value)
       },
       isShowCanvas() {
-        console.log(this.isShowCanvas)
+        if (this.isShowCanvas) {
+          let timer = setTimeout(() => {
+            this.isShow = this.isShowCanvas
+            clearTimeout(timer)
+          }, 200)
+        } else {
+          this.isShow = this.isShowCanvas
+        }
       }
     },
     data() {
@@ -80,7 +87,8 @@
         percent: 0, // 保存进度值的变化前后值，用于比较用
         value: 0, // 计算结果
         cpbgImg: '', // canvas背景图片
-        cpbarImg: '' // canvas画圆部分图片
+        cpbarImg: '' ,// canvas画圆部分图片
+        isShow: true, // 是否显示
       }
     },
     created() {

@@ -6,7 +6,7 @@
 				<view v-if="!isAudio" class="TUI-message-input-main">
 					<input
 						class="TUI-message-input-area"
-						:adjust-position="true"
+						:adjust-position="false"
 						cursor-spacing="20"
 						v-model="inputText"
 						@input="onInputValueChange"
@@ -535,12 +535,16 @@ export default {
 			});
 		},
 
-		inputBindFocus() {
-			console.log('占位：函数 inputBindFocus 未声明');
+		inputBindFocus(e) {
+			// this.$emit('changeBottomVal',  e.detail.height + 'px')
+      let pageHeight = uni.getWindowInfo().windowHeight - e.detail.height + 'px'
+      this.$emit('changePageHeightVal', pageHeight)
 		},
 
-		inputBindBlur() {
-			console.log('占位：函数 inputBindBlur 未声明');
+		inputBindBlur(e) {
+			// this.$emit('changeBottomVal', 0)
+      let pageHeight = uni.getWindowInfo().windowHeight + 'px'
+      this.$emit('changePageHeightVal', pageHeight)
 		}
 	}
 };

@@ -14,6 +14,7 @@
           transform: translateY(-50%);
   width: 60rpx;
   height: 60rpx;
+  margin-left: 20rpx;
 }
 .student .stuCourseInfo .content.data-v-72556922 {
   padding: 15px;
@@ -104,5 +105,11 @@
 .student .close image.data-v-72556922 {
   width: 60rpx;
   height: 60rpx;
+}
+.student .noStuData.data-v-72556922 {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 

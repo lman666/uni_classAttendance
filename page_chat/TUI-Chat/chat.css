@@ -15,7 +15,7 @@
   flex-shrink: 0;
   width: 750rpx;
   height: 176rpx;
-  background-color: #006EFF;
+  background-color: #ffd2d3;
 }
 
 .tui-chatroom-navigatorbar-back {
@@ -45,16 +45,11 @@
   flex: 1;
   width: 100vw;
   overflow-y: scroll;
-/*  padding-bottom: 61px; */
 }
 
 .message-input {
   flex-shrink: 0;
   width: 100%;
-/*  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 199; */
 }
 
 .calling {

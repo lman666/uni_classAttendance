@@ -22,13 +22,9 @@
       <video v-if="videoPlay" class="video-message" :src="videoMessage.payload.videoUrl"
         :poster="videoMessage.payload.thumbUrl" object-fit="cover" error="videoError" autoplay="true" direction="0" />
     </view>
-<!--    <view v-if="showChat" class="message-input" :style="{ bottom: bottomVal }">
-      <TUI-message-input id="message-input" ref="messageInput" :conversation="conversation" @sendMessage="sendMessage"
-        @changeBottomVal="changeBottomVal" />
-    </view> -->
     <view v-if="showChat" class="message-input">
       <TUI-message-input id="message-input" ref="messageInput" :conversation="conversation" @sendMessage="sendMessage"
-        @changePageHeightVal="changePageHeightVal"/>
+        @changePageHeightVal="changePageHeightVal" />
     </view>
   </view>
 </template>
@@ -57,8 +53,7 @@
         conversationID: '',
         videoPlay: false,
         videoMessage: {},
-        pageHeight: '',    // 页面高度
-        // bottomVal: '',
+        pageHeight: '', // 页面高度
         config: {
           sdkAppID: '',
           userID: '',
@@ -126,9 +121,6 @@
       // // #endif
     },
     methods: {
-      // changeBottomVal(val) {
-      //   this.bottomVal = val
-      // },
       changePageHeightVal(val) {
         this.pageHeight = val
         this.$refs.messageList.scrollToButtom()

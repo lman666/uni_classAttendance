@@ -64,8 +64,8 @@
         </uni-drawer>
       </view>
     </view>
-    <view class="noStuData" v-if="showPage && JSON.stringify(selectedCourse) === '{}'">
-      <image src="../../static/tab_icons/noData.png" @load="autoImage" :style="{width:imageWidth, height:imageHeight}">
+    <view class="noStuData" v-if="showPage && JSON.stringify(selectedCourse) === '{}'" :style="{width:viewWidth, height:viewHeight}">
+      <image src="@/static/tab_icons/noData.png" @load="autoView">
       </image>
     </view>
   </view>
@@ -99,9 +99,9 @@
         isPunch: false, // 是否已打卡
         interval: {}, // 定时器对象
         stuPhoto: '', // 学生个人图片
-        showPage: false, // 是否显示数据页面
-        imageWidth: '', // 缺省图片宽度
-        imageHeight: '' // 缺省图片高度
+        viewWidth: '', // 缺省部分宽度
+        viewHeight: '', // 缺省部分高度
+        showPage: false
       }
     },
     options: {
@@ -149,6 +149,15 @@
           sourceType: ['camera'],
           success: (res) => {
             this.imageToBase64(res.tempFilePaths[0])
+          }
+        })
+      },
+      // 设置缺省部分宽高
+      autoView(e) {
+        uni.getSystemInfo({
+          complete: (res) => {
+            this.viewWidth = res.windowWidth + 'px'
+            this.viewHeight = res.windowHeight + 'px'
           }
         })
       },
@@ -334,9 +343,9 @@
             this.stuCourseInfoList.push(result)
           }
           if (this.stuCourseInfoList.length) {
-            this.showPage = true
             this.selectedCourse = this.stuCourseInfoList[0]
             this.checkPunchOrNot()
+            this.showPage = true
           } else {
             this.showPage = true
           }
@@ -347,138 +356,5 @@
 </script>
 
 <style lang="less" scoped>
-  .student {
-    .page-top {
-      position: relative;
-      height: 85rpx;
-      background-color: #fff;
-      padding: 0 20rpx;
-      text-align: center;
-      line-height: 85rpx;
-
-      image {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-
-    .stuCourseInfo {
-      .content {
-        padding: 15px;
-      }
-
-      .text {
-        font-size: 14px;
-        color: #666;
-        line-height: 20px;
-      }
-
-      .clockMethod {
-
-        .method {
-          font-size: 28rpx;
-          color: #3b4144;
-        }
-
-        .location {
-          width: 200rpx;
-          color: #999;
-          font-size: 12px;
-        }
-      }
-    }
-
-    .work {
-      position: absolute;
-      top: 600rpx;
-      left: 50%;
-      transform: translateX(-50%);
-
-      .gs_incircle {
-        width: 280rpx;
-        height: 280rpx;
-        background-color: #ffdef2;
-        border-radius: 50%;
-        padding: 15rpx;
-        margin: 20rpx auto;
-        cursor: pointer;
-
-        .gs_excircle {
-          width: 100%;
-          height: 100%;
-          background-color: #fff;
-          border-radius: 50%;
-          position: relative;
-
-          .gs_innercircle {
-            width: 250rpx;
-            height: 250rpx;
-            background-color: #ffcef0;
-            border-radius: 50%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            color: #fff;
-            font-size: 40rpx;
-
-            .punchTheClock {
-              position: absolute;
-              left: 50%;
-              top: 44%;
-              transform: translate(-50%, -50%);
-            }
-
-            .currentTime {
-              position: absolute;
-              left: 50%;
-              top: 62%;
-              transform: translateX(-50%);
-              font-size: 28rpx;
-            }
-          }
-        }
-      }
-    }
-
-    .noData {
-      image {
-        display: block;
-      }
-    }
-
-    .drawer {
-      /deep/ .active {
-        .uni-list-item {
-          background-color: #fff !important;
-        }
-      }
-    }
-
-    .drawer {
-      /deep/ .uni-list-item {
-        background-color: #f5f5f5 !important;
-      }
-    }
-
-    .close {
-      height: 85rpx;
-      background-color: #fff;
-      padding: 0 20rpx;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      image {
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-  }
+  @import url('studentPart.less');
 </style>

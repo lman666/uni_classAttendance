@@ -68,7 +68,7 @@
             <text>更改照片</text>
           </view>
           <view class="dialogContent">
-            <uni-file-picker limit="1" v-model="photo"></uni-file-picker>
+            <uni-file-picker limit="1" v-model="photo" :sourceType="['album']"></uni-file-picker>
           </view>
           <view class="dialogButtonGroup">
             <view class="dialogButton" @click="cancelChange">
@@ -87,6 +87,7 @@
 <script>
   import logger from '@/utils/logger.js';
   import {
+    mapMutations,
     mapState
   } from 'vuex'
   import {
@@ -142,6 +143,7 @@
       this.infoListItems[2].detail = this.userData.name
     },
     methods: {
+      ...mapMutations('m_user', ['updateUserInfo', 'updateUserData', 'updateToken']),
       // 动态绑定列表点击事件
       handleClick(operate) {
         this[operate]()
@@ -186,7 +188,6 @@
       },
       // 更换头像昵称
       changeAvatarAndNick() {
-        console.log('changeAvatarAndNick')
         uni.navigateTo({
           url: '/page_change/change/change'
         })
@@ -203,9 +204,12 @@
       logOut() {
         logger.log('| TUI-User-Center | mine  | quit-logout ')
         uni.$TUIKit.logout().then(() => {
+          this.updateUserInfo({})
+          this.updateUserData({})
+          this.updateToken('')
           uni.clearStorage()
           uni.reLaunch({
-            url: '../index/index',
+            url: '/page_index/index/index',
             success: () => {
               uni.$showMsg('退出成功', 'none')
             }
@@ -217,169 +221,5 @@
 </script>
 
 <style lang="less" scoped>
-  .my-userinfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    position: relative;
-
-    .top-box {
-      width: 100%;
-      height: 400rpx;
-      background-color: #ffd2d3;
-      display: flex;
-      align-items: center;
-
-      .avatar {
-        margin-bottom: 20rpx;
-        height: 70px;
-        width: 70px;
-        border-radius: 50%;
-        margin-left: 100rpx;
-      }
-
-      .nickname {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin-left: 20rpx;
-
-        color: #fff;
-        height: 90rpx;
-
-        .nick {
-          font-size: 36rpx;
-        }
-
-        .type {
-          font-size: 24rpx;
-        }
-      }
-    }
-
-    .info,
-    .more {
-      overflow: hidden;
-      width: 680rpx;
-      background-color: #fff;
-      border: 1rpx solid #ccc;
-      border-radius: 20rpx;
-      box-shadow: #ccc 0 0 5rpx 2rpx;
-      color: rgb(106, 106, 106);
-
-      /deep/ .uni-list-item {
-        .uni-list-item__container {
-          align-items: center;
-
-          .icon {
-            image {
-              vertical-align: middle;
-              width: 40rpx;
-              height: 40rpx;
-            }
-          }
-
-          .title {
-            font-size: 30rpx;
-            margin-left: 25rpx;
-          }
-        }
-      }
-    }
-
-    .info {
-      position: absolute;
-      left: 50%;
-      top: 350rpx;
-      transform: translateX(-50%);
-
-      /deep/ .uni-list-item {
-
-        .uni-list-item__container {
-          padding: 16rpx 30rpx;
-
-          .detail {
-            flex: 1;
-            color: #c2c2c2;
-            font-size: 24rpx;
-            text-align: end;
-          }
-        }
-      }
-    }
-
-    .more {
-      margin-top: 250rpx;
-    }
-
-    .changePhotoDialog {
-      uni-popup {
-        /deep/ .uni-popup.center uni-transition:nth-of-type(2) .vue-ref .uni-popup__wrapper.center{
-          border-radius: 22rpx;
-        }
-      }
-      
-      .popup-content {
-        width: 600rpx;
-        border-radius: 22rpx;
-        background-color: #fff;
-
-        .dialogTitle {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          padding-top: 20px;
-          color: #909399;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .dialogContent {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          padding: 20px;
-          
-          /deep/ .uni-file-picker .uni-file-picker__container {
-            justify-content: center;
-          }
-        }
-
-        .dialogButtonGroup {
-          display: flex;
-          flex-direction: row;
-          border-top-color: #f5f5f5;
-          border-top-style: solid;
-          border-top-width: 1px;
-
-          .dialogButton {
-            display: flex;
-            flex: 1;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            height: 45px;
-            font-size: 16px;
-
-            .cancel {
-              color: #333;
-            }
-
-            .confirm {
-              color: #007aff;
-            }
-          }
-
-          .borderLeft {
-            border-left-color: #f0f0f0;
-            border-left-style: solid;
-            border-left-width: 1px;
-          }
-        }
-      }
-    }
-  }
+  @import url('my.less');
 </style>

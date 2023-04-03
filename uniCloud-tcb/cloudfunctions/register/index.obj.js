@@ -40,6 +40,10 @@ let fail2 = {
   code: 401,
   message: "失败"
 }
+let fail3 = {
+  code: 402,
+  message: "查无此人"
+}
 let success1 = {
   code: 200,
   message: "成功"
@@ -51,34 +55,35 @@ let success2 = {
 
 const db = uniCloud.database()
 
-  // 验证数据库是否存在信息
-  async function isExist(info) {
-    let userInfo = await db.collection('user').where({
-      openid: info.openid
-    }).field({
-      school: true,
-      name: true,
-      code: true,
-      role: true
-    }).get()
-    if (userInfo.data.length) {
-      if (userInfo.data[0].school !== info.school || userInfo.data[0].name !== info.name || userInfo.data[0].code !== info.code || userInfo.data[0].role !== info.role) {
-        return fail1
-      } else if (info.role === 1){
-        let updatePhotoRes = await db.collection('user').where({
-          openid: info.openid
-        }).update({
-          stuBase64Photo: info.stuBase64Photo
-        })
-        return success1
-      } else {
-        return success1
-      }
+// 验证数据库是否存在信息
+async function isExist(info) {
+  let userInfo = await db.collection('user').where({
+    openid: info.openid
+  }).field({
+    school: true,
+    name: true,
+    code: true,
+    role: true
+  }).get()
+  if (userInfo.data.length) {
+    if (userInfo.data[0].school !== info.school || userInfo.data[0].name !== info.name || userInfo.data[0].code !==
+      info.code || userInfo.data[0].role !== info.role) {
+      return fail1
+    } else if (info.role === 1) {
+      let updatePhotoRes = await db.collection('user').where({
+        openid: info.openid
+      }).update({
+        stuBase64Photo: info.stuBase64Photo
+      })
+      return success1
     } else {
-      return fail2
+      return success1
     }
+  } else {
+    return fail2
   }
-  
+}
+
 module.exports = {
   _before: function() { // 通用预处理器
 
@@ -101,7 +106,7 @@ module.exports = {
       return vailRes
     }
   },
-  
+
   // 更改照片
   async changePhoto(token, stuBase64Photo) {
     if (token && verifyToken(token)) {
@@ -120,7 +125,7 @@ module.exports = {
       return fail2
     }
   },
-  
+
   // 更改头像昵称
   async changeAvatarAndNick(token, nick, avatar) {
     if (token && verifyToken(token)) {
@@ -135,6 +140,28 @@ module.exports = {
         return success2
       } else {
         return success1
+      }
+    } else {
+      return fail2
+    }
+  },
+
+  // 根据学校姓名学号查找用户
+  async searchUser(token, userObj) {
+    if (token && verifyToken(token)) {
+      let user = await db.collection('user').where({
+        name: userObj.name,
+        code: userObj.code,
+        school: userObj.school,
+        role: 1
+      }).field({
+        openid: true
+      }).get()
+      if (user.data.length) {
+        success1.openid = user.data[0].openid
+        return success1
+      } else {
+        return fail3
       }
     } else {
       return fail2

@@ -13,7 +13,7 @@
         		<view class="operate">
               <button v-if="item.isPunch === false" size="mini" @click="punch(item.code, item.name, i)">补卡</button>
               <button v-if="item.isPunch === true" size="mini" disabled>已打卡</button>
-              <button class="chat" size="mini" @click="chat(item.openid)">聊天</button>
+              <button class="chat" size="mini" @click="chat(item)">聊天</button>
             </view>
         	</template>
         </uni-list-item>
@@ -58,24 +58,26 @@
         }
       },
       // 聊天
-      chat(openid) {
-        uni.$TUIKit
-        	.getUserProfile({
-        		userIDList: ['lin']
-        	})
-        	.then(imRes => {
-        		if (imRes.data.length > 0) {
-        			let id = 'lin'
-        			uni.navigateTo({
-        			  url: `/page_chat/TUI-Chat/chat?conversationID=C2C${id}`
-        			})
-        		} else {
-        			uni.showToast({
-        				title: '用户不存在，可能未注册',
-        				icon: 'error'
-        			})
-        		}
-        	})
+      async chat(stuInfo) {
+        const register = uniCloud.importObject('register')
+        let stuRes = await register.searchUser(this.token, stuInfo)
+        if (stuRes.code === 200) {
+          uni.$TUIKit
+          	.getUserProfile({
+          		userIDList: [stuRes.openid]
+          	})
+          	.then(imRes => {
+          		if (imRes.data.length > 0) {
+          			uni.navigateTo({
+          			  url: `/page_chat/TUI-Chat/chat?conversationID=C2C${imRes.data[0].userID}`
+          			})
+          		} else {
+                uni.$showMsg('用户不存在', 'none')
+          		}
+          	})
+        } else {
+          uni.$showMsg(stuRes.message, 'none')
+        }
       },
       // 点击返回键调用
       bindClick() {
@@ -92,38 +94,5 @@
 </script>
 
 <style lang="less">
-  .punchResList {
-    .stuInfo {
-      .name {
-        color: #3b4144;
-        font-size: 28rpx;
-      }
-      
-      .code {
-        color: #999;
-        font-size: 24rpx;
-        margin-top: 6rpx;
-      }
-    }
-    
-    .operate {
-      width: 230rpx;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      
-      button {
-        width: 100rpx;
-        height: 66rpx;
-        box-sizing: border-box;
-        line-height: 66rpx;
-        padding: 0;
-        
-        &.chat {
-          background-color: #07C160;
-          color: #fff;
-        }
-      }
-    }
-  }
+  @import url("lookUpPunchRes.less");
 </style>

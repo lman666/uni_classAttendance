@@ -93,5 +93,5 @@
   };
 </script>
 <style lang="less" scoped>
-  @import 'chat.css';
+  @import url('chat.css');
 </style>

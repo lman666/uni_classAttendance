@@ -69,31 +69,5 @@
 </script>
 
 <style lang="less">
-  page {
-    background-color: #fff;
-  }
-
-  .select {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 30rpx;
-
-    .uni-list {
-
-      .uni-list-cell {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100rpx;
-        
-        &::after {
-          height: 0;
-        }
-      }
-
-      &::after {
-        height: 0;
-      }
-    }
-  }
+  @import url('selRecurDate.less');
 </style>

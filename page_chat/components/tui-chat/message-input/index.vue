@@ -536,13 +536,11 @@ export default {
 		},
 
 		inputBindFocus(e) {
-			// this.$emit('changeBottomVal',  e.detail.height + 'px')
       let pageHeight = uni.getWindowInfo().windowHeight - e.detail.height + 'px'
       this.$emit('changePageHeightVal', pageHeight)
 		},
 
 		inputBindBlur(e) {
-			// this.$emit('changeBottomVal', 0)
       let pageHeight = uni.getWindowInfo().windowHeight + 'px'
       this.$emit('changePageHeightVal', pageHeight)
 		}

@@ -24,6 +24,12 @@
         "lookUpStaff/lookUpStaff",
         "selRecurDate/selRecurDate"
       ]
+    },
+    {
+      "root": "page_change",
+      "pages": [
+        "change/change"
+      ]
     }
   ],
   "window": {

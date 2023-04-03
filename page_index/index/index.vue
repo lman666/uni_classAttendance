@@ -20,7 +20,7 @@
             <uni-easyinput v-model="formData.code" placeholder="请输入学号" :disabled="isDisabled" />
           </uni-forms-item>
           <uni-forms-item label="选择个人照片" required name="photo" label-width="120px" v-if="formData.role === 1">
-            <uni-file-picker limit="1" v-model="formData.photo"></uni-file-picker>
+            <uni-file-picker limit="1" v-model="formData.photo" :sourceType="['album']"></uni-file-picker>
           </uni-forms-item>
         </uni-forms>
         <view class="button">
@@ -201,39 +201,5 @@
 </script>
 
 <style lang="less">
-  page,
-  .container {
-    width: 100%;
-    height: 100%;
-    background-color: #ffd2d3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .title {
-      line-height: 300rpx;
-      font-size: 38rpx;
-      color: #fff;
-      text-align: center;
-      height: 300rpx;
-    }
-
-    .form {
-      box-sizing: border-box;
-      border-radius: 40rpx 40rpx 0 0;
-      flex: 1;
-      width: 100%;
-      height: 500rpx;
-      background-color: #fff;
-      padding: 40rpx 40rpx 0 40rpx;
-
-      /deep/ .uni-forms-item {
-        align-items: center;
-      }
-
-      .button {
-        margin-top: 80rpx;
-      }
-    }
-  }
+  @import url('index.less');
 </style>

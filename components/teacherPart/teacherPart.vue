@@ -166,7 +166,7 @@
       </uni-drawer>
     </view>
     <view class="noTeaData" v-if="showPage && JSON.stringify(courseList) === '[]'" :style="{width:viewWidth, height:viewHeight}">
-      <image src="../../static/tab_icons/noData.png" @load="autoView" >
+      <image src="@/static/tab_icons/noData.png" @load="autoView" >
       </image>
     </view>
   </view>
@@ -244,7 +244,6 @@
         staff: [], // 打卡人员
         fileName: '', // 文件名称
         location: {}, // 地理位置对象
-        showPage: false, // 是否显示信息
         isUploadMethod: false, // 是否上传打卡方式
         isUploadTime: false, // 是否上传打卡时间
         isUploadStaff: false, // 是否上传打卡人员
@@ -258,11 +257,12 @@
         options: [{
           text: '删除',
           style: {
-            backgroundColor: '#007aff'
+            backgroundColor: '#F56C6C'
           }
         }],
         viewWidth: '', // 缺省部分宽度
-        viewHeight: '' // 缺省部分高度
+        viewHeight: '', // 缺省部分高度
+        showPage: false
       }
     },
     options: {
@@ -468,6 +468,7 @@
             this.courseList = res.data
             this.getCourseInfo(token, this.courseList[0]._id)
           }
+        this.showPage = true
         } else if (res.code === 402) {
           uni.$showMsg(res.message, 'error')
         }
@@ -480,8 +481,6 @@
           uni.$showMsg(res.message, 'none')
         } else {
           this.selectedCourse = res
-          console.log(this.selectedCourse)
-          this.showPage = true
           if (this.selectedCourse.clockList) {
             this.clockList = this.selectedCourse.clockList
           }
@@ -827,213 +826,5 @@
 </script>
 
 <style lang="less" scoped>
-  .teacher {
-    .page-top {
-      height: 85rpx;
-      background-color: #fff;
-      padding: 0 20rpx;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      image {
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-
-    .card-top {
-      height: 75rpx;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2rpx solid #f5f5f5;
-      padding: 0 5rpx;
-
-      .left {
-        .classImage {
-          width: 50rpx;
-          height: 50rpx;
-          vertical-align: bottom;
-          margin-right: 10rpx;
-        }
-      }
-
-      .extraImage {
-        width: 45rpx;
-        height: 45rpx;
-      }
-    }
-
-    .card-body {
-      /deep/ .uni-list-item {
-        height: 85rpx;
-        background-color: #fff;
-
-        .uni-list-item__container {
-          padding: 8px 5px 8px 15px;
-        }
-
-        .uni-icon-wrapper {
-          padding: 0 10px 0 0;
-        }
-      }
-    }
-
-    .editTime {
-      .popupTimeStyle {
-        height: 900rpx;
-        padding: 30rpx 20rpx 0 20rpx;
-
-        .top {
-          display: flex;
-          justify-content: space-between;
-
-          image {
-            width: 50rpx;
-            height: 50rpx;
-          }
-        }
-
-        .selectTime {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 50rpx;
-
-          .middle {
-            margin-top: 20rpx;
-            height: 2rpx;
-            width: 40rpx;
-            background-color: #413f3f;
-            transform: scaleY(0.5);
-            transform-origin: 50% 100%;
-          }
-
-          .picker-view {
-            width: 300rpx;
-            height: 200rpx;
-            margin-top: 20rpx;
-
-            .item {
-              text-align: center;
-              line-height: 40px;
-            }
-          }
-        }
-
-        .selectDate {
-          margin-top: 20rpx;
-
-          .disappear {
-            display: none;
-          }
-        }
-
-        .clockList {
-          margin-top: 20rpx;
-        }
-
-        .timeList {
-          margin-top: 20rpx;
-        }
-      }
-    }
-
-    .selectMethod {
-      .clockType {
-        display: flex;
-        flex-direction: column;
-
-        button {
-          width: 100%;
-          height: 90rpx;
-          border: none;
-          border-bottom: 1rpx solid #eaeaea;
-          font-size: 34rpx;
-        }
-
-        button:last-child {
-          border: none;
-        }
-      }
-    }
-
-    .readAttendanceTime,
-    .readAttendanceMethod {
-      .body {
-        width: 600rpx;
-
-        .slot-methodNote {
-          font-size: 28rpx;
-          color: #3b4144;
-        }
-
-        .slot-methodNoteInfo {
-          width: 200rpx;
-          text-align: right;
-          color: #999;
-          font-size: 12px;
-        }
-      }
-    }
-
-    .hasTeaData {
-      .readPunch {
-        background-color: #fff;
-        margin: 0 20rpx;
-
-        .pickBody {
-          background-color: #fff;
-          padding: 10px;
-
-          /deep/ .uni-date-editor {
-            .uni-date__x-input {
-              padding-left: 15rpx;
-            }
-          }
-        }
-        
-        .circleProgress {
-          margin-top: 60rpx;
-        }
-      }
-    }
-
-  }
-
-  .drawer {
-    /deep/ .active {
-      .uni-list-item {
-        background-color: #fff !important;
-      }
-    }
-  }
-
-  .drawer {
-    /deep/ .uni-list-item {
-      background-color: #f5f5f5 !important;
-    }
-  }
-
-  .close {
-    height: 85rpx;
-    background-color: #fff;
-    padding: 0 20rpx;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    image {
-      width: 60rpx;
-      height: 60rpx;
-    }
-  }
-  
-  .noTeaData {
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  @import url('teacherPart.less');
 </style>

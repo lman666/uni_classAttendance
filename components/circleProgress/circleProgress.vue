@@ -186,29 +186,5 @@
 </script>
 
 <style lang="less">
-  .progress_box {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .progress_bg {
-    position: absolute;
-  }
-
-  .progress {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -30%);
-    font-size: 28rpx;
-  }
-  
-  .cpbarImgStyle {
-    position: absolute;
-  }
+  @import url('circleProgress.less');
 </style>

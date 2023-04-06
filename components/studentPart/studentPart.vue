@@ -35,6 +35,26 @@
               </uni-list>
             </view>
           </uni-collapse-item>
+          <uni-collapse-item title="任课老师">
+            <view class="teacher">
+              <uni-list>
+                <uni-list-item clickable
+                  @click="chatToTea(teaInfoOfSelCourse.openid)">
+                  <template v-slot:header>
+                    <view class="teaName">
+                      <text>{{teaInfoOfSelCourse.name}}</text>
+                    </view>
+                  </template>
+                  <template v-slot:footer>
+                    <view class="teaInfo">
+                      <text>{{teaInfoOfSelCourse.code}}</text>
+                      <text>{{teaInfoOfSelCourse.school}}</text>
+                    </view>
+                  </template>
+                </uni-list-item>
+              </uni-list>
+            </view>
+          </uni-collapse-item>
         </uni-collapse>
       </view>
       <view class="work">
@@ -101,7 +121,8 @@
         stuPhoto: '', // 学生个人图片
         viewWidth: '', // 缺省部分宽度
         viewHeight: '', // 缺省部分高度
-        showPage: false
+        showPage: false,
+        teaInfoOfSelCourse: {}    // 所选择的课程的教师信息
       }
     },
     options: {
@@ -113,6 +134,22 @@
       this.getCourseIdList(this.token, this.userData.code, this.userData.school)
     },
     methods: {
+      // 与任课老师聊天
+      chatToTea(openid) {
+        uni.$TUIKit
+        	.getUserProfile({
+        		userIDList: [openid]
+        	})
+        	.then(imRes => {
+        		if (imRes.data.length > 0) {
+        			uni.navigateTo({
+        			  url: `/page_chat/TUI-Chat/chat?conversationID=C2C${imRes.data[0].userID}`
+        			})
+        		} else {
+              uni.$showMsg('用户不存在', 'none')
+        		}
+        	})
+      },
       // 打开窗口
       showDrawer(e) {
         this.$refs[e].open()
@@ -215,11 +252,18 @@
           }
         })
       },
+      // 获取该课程的教师信息
+      async getTeaInfo(openid) {
+        const courseHelper = uniCloud.importObject('courseHelper')
+        let teaInfoRes = await courseHelper.getTeaInfo(this.token, openid)
+        this.teaInfoOfSelCourse = teaInfoRes.data[0]
+      },
       // 选择课程
       activeChanged(i) {
         this.active = i
         clearInterval(this.interval)
         this.selectedCourse = this.stuCourseInfoList[i]
+        this.getTeaInfo(this.selectedCourse.openid)
         this.$nextTick(() => {
           this.$refs.collapse.resize()
         })
@@ -344,6 +388,7 @@
           }
           if (this.stuCourseInfoList.length) {
             this.selectedCourse = this.stuCourseInfoList[0]
+            this.getTeaInfo(this.selectedCourse.openid)
             this.checkPunchOrNot()
             this.showPage = true
           } else {

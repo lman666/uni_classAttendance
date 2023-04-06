@@ -79,7 +79,7 @@ module.exports = {
   _before: function() { // 通用预处理器
 
   },
-  
+
   // 添加新课程
   async addNewCourse(object) {
     if (verifyToken(object.token)) {
@@ -127,9 +127,9 @@ module.exports = {
   async getCourseInfo(token, course_id) {
     if (token && verifyToken(token)) {
       const db = uniCloud.database()
-      let clockOfCourse = {}  // 课程打卡列表
-      let staffOfCourse = {}   // 课程打卡人员列表
-      let alreadyPunchStaff = {}   // 课程已打卡人员列表
+      let clockOfCourse = {} // 课程打卡列表
+      let staffOfCourse = {} // 课程打卡人员列表
+      let alreadyPunchStaff = {} // 课程已打卡人员列表
       const courseBasicInfo = await db.collection('course').where({
         _id: course_id
       }).get()
@@ -233,7 +233,7 @@ module.exports = {
       return fail4
     }
   },
-  
+
   // 根据学生信息查询课程
   async getCourInfoAccordingToStuInfo(token, stuCode, stuSchool) {
     if (token && verifyToken(token)) {
@@ -249,6 +249,24 @@ module.exports = {
         courseIdList.push(item.course_id)
       }
       return courseIdList
+    } else {
+      return fail3
+    }
+  },
+
+  // 获取某课程的教师信息
+  async getTeaInfo(token, openid) {
+    if (token && verifyToken(token)) {
+      const db = uniCloud.database()
+      let res = await db.collection('user').where({
+        openid: openid
+      }).field({
+        name: true,
+        code: true,
+        school: true,
+        openid: true
+      }).get()
+      return res
     } else {
       return fail3
     }

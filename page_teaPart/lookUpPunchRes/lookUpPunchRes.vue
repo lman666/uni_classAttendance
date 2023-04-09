@@ -11,8 +11,9 @@
         	</template>
         	<template v-slot:footer>
         		<view class="operate">
-              <button v-if="item.isPunch === false" size="mini" @click="punch(item.code, item.name, i)">补卡</button>
-              <button v-if="item.isPunch === true" size="mini" disabled>已打卡</button>
+              <button v-if="item.isPunch === false" size="mini" @click="punch(item.code, item.name, item.school, i)">补卡</button>
+              <button v-if="item.isPunch === true && item.isLate === true" size="mini" disabled>迟到</button>
+              <button v-if="item.isPunch === true && item.isLate === false" size="mini" disabled>正常</button>
               <button class="chat" size="mini" @click="chat(item)">聊天</button>
             </view>
         	</template>
@@ -40,12 +41,14 @@
       console.log(this.punchResInfo)
     },
     methods: {
-      async punch(code, name, i) {
+      async punch(code, name, school, i) {
         let obj = {
           course_id: this.punchResInfo.course_id,
           code: code,
           name: name,
-          date: this.punchResInfo.date
+          school: school,
+          date: this.punchResInfo.date,
+          isLate: false
         }
         const clockHelper = uniCloud.importObject('clockHelper')
         let res = await clockHelper.punchTheClock(this.token, obj)
@@ -55,6 +58,7 @@
           uni.$showMsg(res.message, 'none')
         } else {
           this.punchResInfo.punchResList[i].isPunch = true
+          this.punchResInfo.punchResList[i].isLate = false
         }
       },
       // 聊天

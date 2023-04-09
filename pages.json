@@ -33,6 +33,14 @@
         }
       }]
     }, {
+      "root": "page_stuPunchRecord",
+      "pages": [{
+        "path": "stuPunchRecord/stuPunchRecord",
+        "style": {
+          "navigationBarTitleText": "打卡记录"
+        }
+      }]
+    }, {
       "root": "page_chat",
       "pages": [{
         "path": "TUI-Chat/chat",

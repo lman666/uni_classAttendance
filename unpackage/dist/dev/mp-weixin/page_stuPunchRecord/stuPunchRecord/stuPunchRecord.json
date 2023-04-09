@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "打卡记录",
+  "usingComponents": {
+    "uni-calendar": "/uni_modules/uni-calendar/components/uni-calendar/uni-calendar"
+  }
+}

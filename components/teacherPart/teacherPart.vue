@@ -376,6 +376,7 @@
             for (let item2 of this.punchResInfo.punchResList) {
               if (item1.code === item2.code) {
                 item2.isPunch = true
+                item2.isLate = item1.isLate
               }
             }
           }

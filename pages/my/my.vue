@@ -30,19 +30,20 @@
     </view>
     <view class="more">
       <uni-list>
-        <uni-list-item :border="false" showArrow clickable @click="handleClick(more[0].operate)"
-          v-if="userData.role === 1">
-          <template v-slot:header>
-            <view class="icon">
-              <image :src="more[0].icon"></image>
-            </view>
-          </template>
-          <template v-slot:body>
-            <text class="title">{{more[0].title}}</text>
-          </template>
-        </uni-list-item>
         <block v-for="(item, i) in more" :key="i">
-          <uni-list-item :border="false" showArrow clickable @click="handleClick(item.operate)" v-if="i >= 1">
+          <uni-list-item :border="false" showArrow clickable @click="handleClick(item.operate)" v-if="i <= 1 && userData.role === 1">
+            <template v-slot:header>
+              <view class="icon">
+                <image :src="item.icon"></image>
+              </view>
+            </template>
+            <template v-slot:body>
+              <text class="title">{{item.title}}</text>
+            </template>
+          </uni-list-item>
+        </block>
+        <block v-for="(item, i) in more" :key="i">
+          <uni-list-item :border="false" showArrow clickable @click="handleClick(item.operate)" v-if="i >= 2">
             <template v-slot:header>
               <view class="icon">
                 <image :src="item.icon"></image>
@@ -119,6 +120,11 @@
             operate: 'openChangePhotoDialog'
           },
           {
+            icon: require('@/static/tab_icons/record.png'),
+            title: '打卡记录',
+            operate: 'lookPunchRecord'
+          },
+          {
             icon: require('@/static/tab_icons/about.png'),
             title: '头像昵称',
             operate: 'changeAvatarAndNick'
@@ -147,6 +153,12 @@
       // 动态绑定列表点击事件
       handleClick(operate) {
         this[operate]()
+      },
+      // 查看打卡记录
+      lookPunchRecord() {
+        uni.navigateTo({
+          url: '/page_stuPunchRecord/stuPunchRecord/stuPunchRecord'
+        })
       },
       // 更换图片
       openChangePhotoDialog() {

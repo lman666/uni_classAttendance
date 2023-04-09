@@ -62,7 +62,7 @@
           <view class='gs_excircle'>
             <view class='gs_innercircle' :style="withinTheClockingTime && !isPunch ? '' : 'background-color:#ddd;'"
               @click="punchTheClock">
-              <text class="punchTheClock">{{isPunch ? '已签到' : '签到'}}</text>
+              <text class="punchTheClock">{{isPunch ? '已签到' : isLate ? '迟到' : '签到'}}</text>
               <text class="currentTime">{{currentTime}}</text>
             </view>
           </view>
@@ -94,7 +94,11 @@
 <script>
   import {
     pathToBase64
-  } from 'image-tools'
+  } from 'image-tools' 
+  import {
+    mapMutations,
+    mapState
+  } from 'vuex'
   
   export default {
     name: "studentPart",
@@ -122,11 +126,15 @@
         viewWidth: '', // 缺省部分宽度
         viewHeight: '', // 缺省部分高度
         showPage: false,
+        isLate: false,   // 是否迟到
         teaInfoOfSelCourse: {}    // 所选择的课程的教师信息
       }
     },
     options: {
       styleIsolation: 'shared'
+    },
+    computed: {
+      ...mapState('m_stuCourseInfo', ['m_stuCourseInfoList'])
     },
     created() {
       this.getCurrentDate()
@@ -134,6 +142,7 @@
       this.getCourseIdList(this.token, this.userData.code, this.userData.school)
     },
     methods: {
+      ...mapMutations('m_stuCourseInfo', ['updateM_stuCourseInfoList']),
       // 与任课老师聊天
       chatToTea(openid) {
         uni.$TUIKit
@@ -225,7 +234,10 @@
           course_id: this.selectedCourse._id,
           code: this.userData.code,
           name: this.userData.name,
-          date: this.currentDate
+          school: this.userData.school,
+          date: this.currentDate,
+          time: this.currentTime,
+          isLate: this.isLate
         }
         let res = await clockHelper.punchTheClock(this.token, obj)
         if (res.code === 200) {
@@ -269,6 +281,7 @@
         })
         this.withinTheClockingTime = false
         this.isPunch = false
+        this.isLate = false
         this.checkPunchOrNot()
       },
       // 根据位置信息打开地图
@@ -353,8 +366,13 @@
         let timeStampOfStart = this.timeStrToStamp(clockObj.timeOfStart)
         let timeStampOfEnd = this.timeStrToStamp(clockObj.timeOfEnd)
         let timeStampOfCurrent = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds()
-        if (timeStampOfStart <= timeStampOfCurrent && timeStampOfEnd >= timeStampOfCurrent) {
+        if (((timeStampOfCurrent >= timeStampOfStart - 900 && timeStampOfCurrent <= timeStampOfStart) || timeStampOfStart <= timeStampOfCurrent) && timeStampOfEnd >= timeStampOfCurrent) {
           this.withinTheClockingTime = true
+          if (timeStampOfCurrent >= timeStampOfStart - 900 && timeStampOfCurrent <= timeStampOfStart) {
+            this.isLate = false
+          } else {
+            this.isLate = true
+          }
         } else {
           this.withinTheClockingTime = false
         }
@@ -387,6 +405,7 @@
             this.stuCourseInfoList.push(result)
           }
           if (this.stuCourseInfoList.length) {
+            this.updateM_stuCourseInfoList(this.stuCourseInfoList)
             this.selectedCourse = this.stuCourseInfoList[0]
             this.getTeaInfo(this.selectedCourse.openid)
             this.checkPunchOrNot()

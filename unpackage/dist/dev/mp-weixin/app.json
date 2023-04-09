@@ -12,6 +12,12 @@
       ]
     },
     {
+      "root": "page_stuPunchRecord",
+      "pages": [
+        "stuPunchRecord/stuPunchRecord"
+      ]
+    },
+    {
       "root": "page_chat",
       "pages": [
         "TUI-Chat/chat"

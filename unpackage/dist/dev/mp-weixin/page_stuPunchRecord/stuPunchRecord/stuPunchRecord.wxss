@@ -1,0 +1,92 @@
+page {
+  padding-bottom: 30rpx;
+}
+
+.calendar_box.data-v-290d1346 {
+  background-color: #fff;
+  width: 95%;
+  margin: 30rpx auto 0;
+  position: relative;
+  border-radius: 15rpx;
+  box-sizing: border-box;
+}
+.calendar_box .gs_pillar.data-v-290d1346 {
+  overflow: hidden;
+  position: absolute;
+  top: -16rpx;
+  width: 100%;
+}
+.calendar_box .gs_pillar .gs_post.data-v-290d1346 {
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+.calendar_box .gs_pillar .gs_post view.data-v-290d1346 {
+  display: inline-block;
+  width: 18rpx;
+  height: 42rpx;
+  background-color: #ffd2d3;
+  border-radius: 20rpx;
+}
+.calendar_box .calendar.data-v-290d1346 {
+  padding: 30rpx 10rpx 10rpx 10rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.calendar_box .calendar.data-v-290d1346 .uni-calendar__header {
+  height: 85rpx;
+}
+.calendar_box .calendar.data-v-290d1346 .uni-calendar__box .uni-calendar__weeks .uni-calendar__weeks-day {
+  height: 65rpx;
+}
+.calendar_box .calendar.data-v-290d1346 .uni-calendar__box .uni-calendar__weeks .uni-calendar__weeks-item .uni-calendar-item--hook .uni-calendar-item--checked {
+  background-color: #ffd2d3;
+}
+.calendar_box .calendar.data-v-290d1346 .uni-calendar__box .uni-calendar__weeks .uni-calendar__weeks-item .uni-calendar-item--hook .uni-calendar-item--isDay {
+  background-color: #ffd2d3;
+}
+.calendar_box .calendar.data-v-290d1346 .uni-calendar__box .uni-calendar__weeks .uni-calendar__weeks-item .uni-calendar-item--hook .uni-calendar-item__weeks-box-item {
+  height: 70rpx;
+}
+.noResults.data-v-290d1346 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  border-radius: 15rpx;
+  padding: 40rpx 30rpx 30rpx 30rpx;
+  margin: 30rpx auto 0;
+  box-sizing: border-box;
+}
+.status_box.data-v-290d1346 {
+  width: 95%;
+  border-radius: 15rpx;
+  padding: 40rpx 30rpx 30rpx 30rpx;
+  margin: 30rpx auto 0;
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #636363;
+}
+.status_box .punchStatus_box.data-v-290d1346,
+.status_box .punchTime_box.data-v-290d1346 {
+  margin-top: 50rpx;
+}
+.status_box .detail.data-v-290d1346 {
+  font-size: 30rpx;
+}
+.status_box .top.data-v-290d1346 {
+  display: flex;
+}
+.status_box .top .pillar.data-v-290d1346 {
+  display: inline-block;
+  width: 18rpx;
+  height: 42rpx;
+  background-color: #ffd2d3;
+  border-radius: 20rpx;
+  margin-right: 20rpx;
+}
+.status_box .bottom.data-v-290d1346 {
+  margin-top: 15rpx;
+  margin-left: 30rpx;
+}
+

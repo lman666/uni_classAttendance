@@ -111,18 +111,25 @@ let fail3 = {
   code: 403,
   message: '该学生已打卡，不可重复打卡'
 }
+let fail4 = {
+  code: 404,
+  message: '失败'
+}
 
 module.exports = {
   _before: function() { // 通用预处理器
 
   },
   // 签到
-  // obj: { course_id, code, name, date }
+  // obj: { course_id, code, name, date, time, isLate }
   async punchTheClock(token, obj) {
     if (token && verifyToken(token)) {
       let stuObj = {
         code: obj.code,
-        name: obj.name
+        name: obj.name,
+        school: obj.school,
+        time: obj.time ? obj.time : '',
+        isLate: obj.isLate
       }
       const db = uniCloud.database()
       let res1 = await db.collection('punchClock').where({
@@ -218,6 +225,41 @@ module.exports = {
       }
     } else {
       return fail2
+    }
+  },
+
+  // 查看某天的打卡信息
+  async getPunchInfoOfDay(token, date, courseInfoListOfPunchWeek, stuInfo) {
+    if (token && verifyToken(token)) {
+      let punchInfoOfDayList = []
+      const db = uniCloud.database()
+      for (let item of courseInfoListOfPunchWeek) {
+        let punchRes = await db.collection('punchClock').where({
+          course_id: item.course_id,
+          date: date,
+          punchList: {
+            code: stuInfo.code,
+            name: stuInfo.name,
+            school: stuInfo.school
+          }
+        }).field({
+          course_id: true,
+          punchList: true
+        }).get()
+        if (punchRes.data.length) {
+          for (let item of punchRes.data[0].punchList) {
+            if (item.code === stuInfo.code && item.name === stuInfo.name && item.school === stuInfo.school) {
+              let punchInfoObj = item
+              punchInfoObj.course_id = punchRes.data[0].course_id
+              punchInfoOfDayList.push(punchInfoObj)
+              break
+            }
+          }
+        }
+      }
+      return punchInfoOfDayList
+    } else {
+      return fail4
     }
   }
 }

@@ -65,6 +65,7 @@
       // 聊天功能登陆
       login(openid) {
         const userID = openid;
+        // const userID = 'o03Bp5RDG0d4OaiU2G4czRWTouKB'
         const userSig = genTestUserSig(userID).userSig;
         const SDKAppID = app.globalData.SDKAppID;
         logger.log(`TUI-login | login  | userSig:${userSig} userID:${userID}`);

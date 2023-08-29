@@ -1,1 +1,0 @@
-<view class="clockItem"><view class="time">{{item.timeOfStart+' - '+item.timeOfEnd}}</view><view class="frequency">{{'每周'+item.date}}</view></view>
